@@ -42,7 +42,7 @@ const Context = ({children}) => {
     const token=localStorage.getItem("Auth_token")
     console.log(token)
     try{
-      const response=await fetch("http://localhost:4000/getbudject",{
+      const response=await fetch("https://expence-tracker-backend-3.onrender.com/getbudject",{
         method:"GET",
         headers:{
           accept:"application/json",
@@ -107,7 +107,7 @@ const Context = ({children}) => {
       try{
         console.log(email)
          console.log(password)
-         const response=await fetch("http://localhost:4000/adduser",{
+         const response=await fetch("https://expence-tracker-backend-3.onrender.com/adduser",{
           method:"POST",
           headers:{
             accept:"application/json",
@@ -131,7 +131,7 @@ const Context = ({children}) => {
         const token=localStorage.getItem("Auth_token")
         try{
             console.log(token)
-            const response=await fetch(`http://localhost:4000/get_transaction?page=${page}&limit=${limit}&month=${month}`,{
+            const response=await fetch(`https://expence-tracker-backend-3.onrender.com/get_transaction?page=${page}&limit=${limit}&month=${month}`,{
                 method:"GET",
                 headers:{
                     Accept:"application/json",
