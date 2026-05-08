@@ -79,7 +79,7 @@ const Context = ({children}) => {
     }
     const checkuser=async(email,password)=>{
       try{
-        const response=await fetch("https://expence-tracker-backend-3.onrender.com/adduser",{
+        const response=await fetch("https://expence-tracker-backend-3.onrender.com/checkuser",{
           method:"POST",
           headers:{
             accept:"application/json",
