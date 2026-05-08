@@ -14,7 +14,7 @@ const Budget = () => {
     setIsEditing(false);
       const token=localStorage.getItem("Auth_token")
     try{
-       const response=await fetch("http://localhost:4000/Addbudject",{
+       const response=await fetch("https://expence-tracker-backend-3.onrender.com/Addbudject",{
       method:"PUT",
       headers:{
         "Content-Type":"application/json",

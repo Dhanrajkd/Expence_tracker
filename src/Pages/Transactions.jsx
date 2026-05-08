@@ -15,7 +15,7 @@ const Transactions = () => {
     const handlesubmit=async()=>{
       const token=localStorage.getItem("Auth_token")
       try{
-        const response=await fetch("http://localhost:4000/addtransaction",{
+        const response=await fetch("https://expence-tracker-backend-3.onrender.com/addtransaction",{
           method:"POST",
           headers:{
             accept:"application/json",

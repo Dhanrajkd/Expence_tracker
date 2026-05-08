@@ -12,6 +12,7 @@ import Travel from "../images/Travel.png"
 
 const Showtrans = () => {
     const{transactions,fetchdata,pageincrease,pagedegrease,totalpage,page,month,monthfilter}=useContext(authcontext)
+    console.log(transactions)
     const [filteredtrans,setfilteredtrans]=useState([])
     const [showedit,setshowedit]=useState(false)
     const [editid,seteditid]=useState(0)
@@ -36,7 +37,7 @@ const Showtrans = () => {
      const deletetrans=async(id)=>{
         console.log(id)
         try{
-            const responce=await fetch(`http://localhost:4000/deletedata/${id}`,{
+            const responce=await fetch(`https://expence-tracker-backend-3.onrender.com/${id}`,{
                 method:"DELETE",
                 headers:{
                     accept:"application/json",
@@ -78,7 +79,7 @@ const Showtrans = () => {
                 return alert("enter all fields")
             }
          try{
-        const responce=await fetch(`http://localhost:4000/editdata/${editid}`,{
+        const responce=await fetch(`https://expence-tracker-backend-3.onrender.com/${editid}`,{
             method:"PATCH",
             headers:{
                 accept:"application/json",
