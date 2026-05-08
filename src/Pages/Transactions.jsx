@@ -39,7 +39,7 @@ const Transactions = () => {
     }
   return (
     <div className='flex  w-full h-screen justify-center items-center '>
-      <div className='w-[350px] h-[350px] lg:w-[500px] lg:h-[350px] bg-white rounded-[10px] px-2'>
+      <div className='w-[350px] h-[350px] lg:w-[500px] lg:h-[350px] bg-white border rounded-[10px] px-2'>
             <h1 className='text-center mt-2 text-2xl font-bold'>Add Transactions</h1>
             <input type="number" name="amount" className='w-full p-2 border mt-4' placeholder='Enter amount' value={payment.amount} onChange={(e)=>handlechange(e)}  />
             <select name="method" id="" className='w-full mt-2 border p-2 text-gray-400' onChange={handlechange}>
@@ -55,7 +55,7 @@ const Transactions = () => {
                 <option value="Travel">Travel</option>
                 <option value="Gym">Gym</option>
             </select>
-            <button className='w-full mt-4 bg-blue-400 p-2 rounded font-bold' onClick={(e)=>handlesubmit()}>Add Transactions</button>
+            <button className='w-full mt-4 bg-blue-400 p-2 mt-5 rounded font-bold' onClick={(e)=>handlesubmit()}>Add Transactions</button>
       </div>
     </div>
   )

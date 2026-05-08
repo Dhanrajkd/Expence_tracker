@@ -9,8 +9,9 @@ import Cash from "../images/Cash.png"
 import Food from "../images/Food.png"
 import Rent from "../images/Rent.jpg"
 import Travel from "../images/Travel.png"
+
 const Showtrans = () => {
-    const{transactions,fetchdata,pageincrease,pagedegrease,totalpage,page}=useContext(authcontext)
+    const{transactions,fetchdata,pageincrease,pagedegrease,totalpage,page,month,monthfilter}=useContext(authcontext)
     const [filteredtrans,setfilteredtrans]=useState([])
     const [showedit,setshowedit]=useState(false)
     const [editid,seteditid]=useState(0)
@@ -18,6 +19,10 @@ const Showtrans = () => {
     const [selectedmonth, setSelectedmonth] = useState(
         new Date().toISOString().slice(0, 7)
         );
+    useEffect(()=>{
+        console.log(selectedmonth)
+    },[])
+    console.log(transactions)
     const [payment,setpayment]=useState({
             amount:"",
             method:"",
@@ -56,11 +61,16 @@ const Showtrans = () => {
      useEffect(() => {
         if (transactions.length > 0) {
             filtereddates()
+            console.log(transactions)
+        }
+        if(transactions.length===0){
+            setfilteredtrans([])
         }
         }, [transactions, selectedmonth,category])
 
         useEffect(()=>{
             console.log("category",category)
+            console.log("filterdata",filteredtrans)
         },[category])
      const handlesubmit=async()=>{
         console.log(editid)
@@ -90,14 +100,13 @@ const Showtrans = () => {
         }
      }
     const filtereddates=()=>{
-       let filtereddata=transactions
-        if(selectedmonth){
-            filtereddata=filtereddata.filter((item)=>item.createdAt.slice(0,7)===selectedmonth)
-        }
+        let filtereddata=transactions
+        console.log(filtereddata)
         if(category){
             filtereddata=filtereddata.filter((item)=>item.paymentfor===category)
-       }
+       } 
        setfilteredtrans(filtereddata)
+       console.log(filteredtrans)
      } 
      const methodImages = {
         Upi: Upi,
@@ -109,6 +118,7 @@ const Showtrans = () => {
             Travel:Travel,
             Rent:Rent
         }
+            
   return (
     <div className='w-full h-auto px-4 py-3 bg-white rounded-xl shadow-sm border border-gray-200 min-h-[200px]'>
         <div className='w-full flex flex-col lg:flex-row justify-between lg:items-center p-4'>
@@ -116,12 +126,7 @@ const Showtrans = () => {
                 <h1 className='text-2xl font-bold mb-2'>Transactions</h1>
             </div>
             <div className='flex flex-col space-y-5 lg:flex-row lg:space-y-0 lg:space-x-5 lg:items-center'>
-                <input
-                    type="month"
-                    className="border p-2 h-[10] "
-                    value={selectedmonth}
-                    onChange={(e) => setSelectedmonth(e.target.value)}
-            />
+              
                 <select className='p-2 border h-[10]' onChange={(e)=>setcategory(e.target.value)}>
                     <option value="">Select Category</option>
                     <option value="Food">Food</option>
@@ -150,53 +155,81 @@ const Showtrans = () => {
                     month: "short",
                     year: "numeric",
                 });
-            return (
-                        <tr key={item._id} className='hover:bg-gray-300 '>
-                            <td className='lg:p-2 p-2'>
-                                <div className='flex items-center justify-center'>
-                                    <img src={methodImages[item.method]} alt="upi" 
-                                    className="w-[40px] h-[40px] lg:w-[60px] lg:h-[60px] rounded-full border "/>
-                                </div>
-                            </td>
-                            <td className='p-2'>
-                                <div className='flex items-center justify-center'>
-                                    <img src={Categoryicons[item.paymentfor]} alt="" 
-                                        className='w-[50px] h-[50px] lg:w-[60px] lg:h-[60px]  rounded-full border'
-                                    />
-                                </div>
-                            </td>
-                            <td className='p-2 lg:text-2xl font-bold'>${item.amount}</td>
-                            <td className='hidden lg:table-cell p-2 lg:text-2xl font-bold '>{formattedDate}</td>
-                            <td className='align-middle p-2'>
-                                <div className="flex gap-2 justify-center items-center p-4">
-                                    <div className='flex space-x-5'>
-                                        <button className='hidden lg:block ' onClick={()=>deletetrans(item._id)}>
-                                          <i className="bi bi-trash text-2xl lg:text-3xl"></i>
-                                        </button>
-                                        <button className='hidden lg:table-cell'  onClick={()=>handleedit(item._id)}>
-                                            <i className="bi bi-pencil text-2xl lg:text-3xl"></i>
-                                        </button>
-                                    </div>
-                                    
-                                    <div className="relative inline-block p-4">
-                                        <button
-                                            className="text-2xl lg:hidden"
-                                            onClick={() => setmenuid(prev => (prev===item._id ? null :item._id))}
-                                            >
-                                            <i className="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <div
-                                            className={`absolute z-50 w-[120px] lg:hidden bg-white shadow-md rounded top-full space-x-5 right-0 mt-2 ${
-                                                menuid ===item._id ? "block" : "hidden"
-                                            }`}
-                                            >
-                                            <p className="p-2 hover:bg-gray-100 cursor-pointer" onClick={()=>handleedit(item._id)}>Edit</p>
-                                            <p className="p-2 hover:bg-gray-100 cursor-pointer" onClick={()=>deletetrans(item._id)}>Delete</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                return (
+                <tr key={item._id} className="hover:bg-gray-100 transition duration-150">
+                    <td className="p-2">
+                        <div className="flex justify-center">
+                        <img
+                            src={methodImages[item.method]}
+                            alt="method"
+                            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full border shadow-sm"
+                        />
+                        </div>
+                    </td>
+                    <td className="p-2">
+                        <div className="flex justify-center">
+                        <img
+                            src={Categoryicons[item.paymentfor]}
+                            alt="category"
+                            className="w-10 h-10 lg:w-12 lg:h-12 rounded-full border shadow-sm"
+                        />
+                        </div>
+                        <p className="text-xs text-center text-gray-500 mt-1">
+                        {item.paymentfor}
+                        </p>
+                    </td>
+                    <td className="p-2 text-center font-semibold text-lg lg:text-xl">
+                        ₹{item.amount}
+                    </td>
+                    <td className="hidden lg:table-cell p-2 text-center text-gray-600">
+                        {formattedDate}
+                    </td>
+                    <td className="p-2">
+                        <div className="flex justify-center items-center gap-3">
+                        <button
+                            className="hidden lg:block hover:text-red-500 transition"
+                            onClick={() => deletetrans(item._id)}
+                        >
+                            <i className="bi bi-trash text-xl"></i>
+                        </button>
+
+                        <button
+                            className="hidden lg:block hover:text-blue-500 transition"
+                            onClick={() => handleedit(item._id)}
+                        >
+                            <i className="bi bi-pencil text-xl"></i>
+                        </button>
+                        <div className="relative lg:hidden">
+                            <button
+                            className="text-xl"
+                            onClick={() =>
+                                setmenuid(prev => (prev === item._id ? null : item._id))
+                            }
+                            >
+                            <i className="bi bi-three-dots-vertical"></i>
+                            </button>
+
+                            {menuid === item._id && (
+                            <div className="absolute right-0 mt-2 w-28 bg-white shadow-lg rounded-md border z-50">
+                                <p
+                                className="p-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={() => handleedit(item._id)}
+                                >
+                                Edit
+                                </p>
+                                <p
+                                className="p-2 hover:bg-gray-100 cursor-pointer text-red-500"
+                                onClick={() => deletetrans(item._id)}
+                                >
+                                Delete
+                                </p>
+                            </div>
+                            )}
+                        </div>
+
+                        </div>
+                    </td>
+            </tr>
             )
         })
             ): <tr><td className='text-2xl p-4' colSpan={5}>No datas found</td></tr>}

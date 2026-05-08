@@ -14,6 +14,8 @@ const Context = ({children}) => {
   const [page,setpage]=useState(1)
   const [limit,setlimit]=useState(5)
   const [totalpage,settotalpage]=useState(0)
+  const[databar,setdatabar]=useState([])
+  const [month,setmonth]=useState(new Date().toISOString().slice(0, 7))
   useEffect(()=>{
     const token=localStorage.getItem("Auth_token")
     if(token){
@@ -32,7 +34,10 @@ const Context = ({children}) => {
   useEffect(()=>{
     fetchdata()
   },[page])
- 
+ useEffect(()=>{
+  console.log(month)
+   fetchdata()
+ },[month])
   const getbudject=async()=>{
     const token=localStorage.getItem("Auth_token")
     console.log(token)
@@ -69,6 +74,9 @@ const Context = ({children}) => {
     localStorage.removeItem("Auth_token")
     settoken(false)
   }
+   const monthfilter=(month)=>{
+      setmonth(month)
+    }
     const checkuser=async(email,password)=>{
       try{
         const response=await fetch("http://localhost:4000/checkuser",{
@@ -83,9 +91,9 @@ const Context = ({children}) => {
         if(responsedata.success){
           localStorage.setItem("Auth_token",responsedata.token)
           setislogin(true)
-         setuserauth(true)
-         settoken(true)
-         alert(responsedata.message)
+          setuserauth(true)
+          settoken(true)
+          alert(responsedata.message)
         }
         else{
           alert("failed")
@@ -123,7 +131,7 @@ const Context = ({children}) => {
         const token=localStorage.getItem("Auth_token")
         try{
             console.log(token)
-            const response=await fetch(`http://localhost:4000/get_transaction?page=${page}&limit=${limit}`,{
+            const response=await fetch(`http://localhost:4000/get_transaction?page=${page}&limit=${limit}&month=${month}`,{
                 method:"GET",
                 headers:{
                     Accept:"application/json",
@@ -137,8 +145,10 @@ const Context = ({children}) => {
                 setexpences(responsedata.totalexpences)
                 setpiechart(responsedata.piedata)
                 settotalpage(responsedata.totalpages)
+                setdatabar(responsedata.data)
             }
             else{
+              settransactions([])
                 console.log(responsedata.message)
             }
         }
@@ -147,7 +157,7 @@ const Context = ({children}) => {
         }
         }
   return (
-   <authcontext.Provider value={{islogin,checkuser,adduser,authcheck,userauth,token,logout,getbudject,budject,transactions,expences,balance,chart,fetchdata,pageincrease,pagedegrease,totalpage,page}}>
+   <authcontext.Provider value={{islogin,checkuser,adduser,authcheck,userauth,token,logout,getbudject,budject,transactions,expences,balance,chart,fetchdata,pageincrease,pagedegrease,totalpage,page,databar,month,monthfilter}}>
     {children}
    </authcontext.Provider>
   )

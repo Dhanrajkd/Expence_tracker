@@ -10,11 +10,10 @@ import {
 } from "recharts"
 
 const Charts = () => {
-    const { chart } = useContext(authcontext)
+    const { chart,month } = useContext(authcontext)
     console.log(chart)
-
+    console.log(month)
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]
-
     return (
         <div className='w-full h-[350px] bg-white rounded-xl shadow-sm border border-gray-200 p-4'>
             <h2 className='text-lg font-semibold mb-2'>Spending Breakdown</h2>
