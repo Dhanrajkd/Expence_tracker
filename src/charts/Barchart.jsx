@@ -81,7 +81,7 @@ const Barchart = () => {
         <h2 className=" w-full text-lg text-start font-semibold mb-4">
             Weekly Spending Trend
         </h2>
-        <div className="w-[350px] min-h-[300px]">
+        <div className="w-[300px] min-h-[300px]">
             <Bar data={bardata} options={options} />
         </div>
     </div>
