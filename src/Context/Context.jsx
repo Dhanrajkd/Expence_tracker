@@ -20,7 +20,6 @@ const Context = ({children}) => {
     const token=localStorage.getItem("Auth_token")
     if(token){
       settoken(true)
-      fetchdata()
     }
   },[token])
   useEffect(()=>{
