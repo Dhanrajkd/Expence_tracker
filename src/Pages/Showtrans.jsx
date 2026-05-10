@@ -12,7 +12,7 @@ import Travel from "../images/Travel.png"
 
 const Showtrans = () => {
     const{transactions,fetchdata,pageincrease,pagedegrease,totalpage,page,month,monthfilter}=useContext(authcontext)
-    console.log(transactions)
+    console.log("transactions",transactions)
     const [filteredtrans,setfilteredtrans]=useState([])
     const [showedit,setshowedit]=useState(false)
     const [editid,seteditid]=useState(0)

@@ -20,6 +20,7 @@ const Context = ({children}) => {
     const token=localStorage.getItem("Auth_token")
     if(token){
       settoken(true)
+      fetchdata()
     }
   },[token])
   useEffect(()=>{
@@ -131,7 +132,7 @@ const Context = ({children}) => {
         const token=localStorage.getItem("Auth_token")
         try{
             console.log(token)
-            const response=await fetch(`https://expence-tracker-backend-3.onrender.com/get_transaction?page=${page}&limit=${limit}&month=${month}`,{
+            const response=await fetch(`http://localhost:4000/get_transaction?page=${page}&limit=${limit}&month=${month}`,{
                 method:"GET",
                 headers:{
                     Accept:"application/json",
